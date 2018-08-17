@@ -1,0 +1,69 @@
+---
+
+- name: Check that HTTPS transport is available to APT
+  apt: name="apt-transport-https" state=present
+  when: package_apt_repo_https
+
+- name: sources.list
+  template:
+    src: "sources.list.j2"
+    dest: "/etc/apt/sources.list"
+    owner: root
+    group: root
+    mode: 0644
+  register: sources_updated
+
+- name: backports.list
+  template:
+    src: "backports.list.j2"
+    dest: "{{ package_apt_repo_path }}/backports.list"
+    owner: root
+    group: root
+    mode: 0644
+  register: sources_updated
+  when:
+    - package_apt_repo_backports
+    - ansible_distribution == 'Debian'
+
+- name: experimental.list
+  template:
+    src: "experimental.list.j2"
+    dest: "{{ package_apt_repo_path }}/experimental.list"
+    owner: root
+    group: root
+    mode: 0644
+  register: sources_updated
+  when: 
+    - package_apt_repo_experimental
+    - ansible_distribution == 'Debian'
+  
+- name: Custom repo
+  apt_repository:
+    repo: "{{ item.repo }}"
+    filename: "{{ item.name }}"
+    state: "{{ item.state | default(package_state) }}"
+  register: apt_repo_updated
+  when: item.state|default('present')
+  with_items: "{{ package_apt_repo_custom }}"
+
+- name: Custom repo key
+  apt_key:
+    url: "{{ item.key }}"
+    state: "present"
+  when: item.state|default('present')
+  with_items: "{{ package_apt_repo_custom }}"
+
+- name: Update APT cache
+  apt: 
+    update_cache: true 
+    cache_valid_time: "{{ 0 if config_updated is defined and sources_updated.changed else package_cache_valid_time }}"
+
+- name: Install packages
+  apt:
+    name: "{{ item.apt | default(item.name) }}"
+    state: "{{ item.state | default(package_state) }}"
+    update_cache: "{{ package_update_cache }}"
+    cache_valid_time: "{{ package_cache_valid_time }}"
+  when: (item.apt | default('True'))
+  with_flattened:
+    - "{{ package_list }}"

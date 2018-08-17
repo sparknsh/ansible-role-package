@@ -1,0 +1,23 @@
+galaxy_info:
+  role_name: package
+  description: Manage packages and repos in one location.
+  author: sparknsh
+  company: Rebel Media, Inc.
+  license: MIT
+  min_ansible_version: 1.5
+  github_branch: master
+  platforms:
+    - name: Debian
+      versions:
+      - all
+    - name: Ubuntu
+      versions:
+      - all
+  galaxy_tags: 
+    - system
+    - development
+    - cloud
+    - apt
+    - packaging
+
+dependencies: []
