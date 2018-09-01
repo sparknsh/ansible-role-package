@@ -55,6 +55,16 @@ Ubuntu 18.04:
     OS: "ubuntu18.04"
   <<: *Test_Role
 
+CentOS 6:
+  variables:
+    OS: "centos6"
+  <<: *Test_Role
+
+CentOS 7:
+  variables:
+    OS: "centos7"
+  <<: *Test_Role
+
 GitHub:
   image: rebelmediausa/debian
   stage: Deploy

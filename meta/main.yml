@@ -4,15 +4,19 @@ galaxy_info:
   author: sparknsh
   company: Rebel Media, Inc.
   license: MIT
-  min_ansible_version: 1.5
+  min_ansible_version: 2.5
   github_branch: master
   platforms:
     - name: Debian
       versions:
-      - all
+        - all
     - name: Ubuntu
       versions:
-      - all
+        - all
+    - name: EL
+      versions:
+        - 6
+        - 7
   galaxy_tags: 
     - system
     - development

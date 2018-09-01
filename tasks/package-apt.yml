@@ -4,7 +4,7 @@
   apt: name="apt-transport-https" state=present
   when: package_apt_repo_https
 
-- name: sources.list
+- name: Package APT - Install sources.list
   template:
     src: "sources.list.j2"
     dest: "/etc/apt/sources.list"
@@ -13,7 +13,7 @@
     mode: 0644
   register: sources_updated
 
-- name: backports.list
+- name: Package APT - Install backports.list
   template:
     src: "backports.list.j2"
     dest: "{{ package_apt_repo_path }}/backports.list"
@@ -25,7 +25,7 @@
     - package_apt_repo_backports
     - ansible_distribution == 'Debian'
 
-- name: experimental.list
+- name: Package APT - Install experimental.list
   template:
     src: "experimental.list.j2"
     dest: "{{ package_apt_repo_path }}/experimental.list"
@@ -36,29 +36,63 @@
   when: 
     - package_apt_repo_experimental
     - ansible_distribution == 'Debian'
-  
-- name: Custom repo
-  apt_repository:
-    repo: "{{ item.repo }}"
-    filename: "{{ item.name }}"
-    state: "{{ item.state | default(package_state) }}"
-  register: apt_repo_updated
-  when: item.state|default('present')
-  with_items: "{{ package_apt_repo_custom }}"
 
-- name: Custom repo key
-  apt_key:
-    url: "{{ item.key }}"
-    state: "present"
-  when: item.state|default('present')
-  with_items: "{{ package_apt_repo_custom }}"
+- name: packages APT - Custom repos
+  when: package_apt_repo_custom | length > 0
+  block: 
 
-- name: Update APT cache
-  apt: 
-    update_cache: true 
-    cache_valid_time: "{{ 0 if config_updated is defined and sources_updated.changed else package_cache_valid_time }}"
+    - name: Package APT - Install Custom repo key
+      apt_key:
+        url: "{{ item.key }}"
+        state: "present"
+      when: item.state | default(package_state)
+      with_items: "{{ package_apt_repo_custom }}"
+      loop_control:
+        label: "{{ item.key }}"
+      
+    - name: Package APT - Install Custom repo file
+      template:
+        src: "custom.list.j2"
+        dest: "{{ package_apt_repo_path }}/{{ item.filename | default(item.name) }}.list"
+        owner: root
+        group: root
+        mode: 0644
+      register: sources_updated
+      with_items: "{{ package_apt_repo_custom }}"
+      when: item.state != 'absent'
+      loop_control:
+        label: "{{ package_apt_repo_path }}/{{ item.filename | default(item.name) }}.list"
 
-- name: Install packages
+    - name: Package APT - Update APT cache
+      apt: 
+        update_cache: yes
+        cache_valid_time: "{{ 0 if package_update_cache is defined and sources_updated.changed else package_cache_valid_time }}"
+
+    - name: Package APT - Check if repo file exists
+      stat:
+        path: "{{ package_apt_repo_path }}/{{ item.filename | default(item.name) }}.list"
+      register: result
+      with_items: "{{ package_apt_repo_custom }}"
+      when: item.state == 'absent'
+      loop_control:
+        label: "{{ package_apt_repo_path }}/{{ item.filename | default(item.name) }}.list"
+
+    - name: Package APT - Remove Custom repo file
+      file:
+        path: "{{ item.stat.path }}"
+        state: absent
+      register: sources_updated
+      with_items: "{{ result.results }}"
+      when: item.item.state == 'absent' and item.stat.exists
+      loop_control:
+        label: "{{ item._ansible_item_label }}"
+
+    - name: Package APT - Update APT cache
+      apt: 
+        update_cache: yes
+        cache_valid_time: "{{ 0 if package_update_cache is defined and sources_updated.changed else package_cache_valid_time }}"
+
+- name: Package APT - Install packages
   apt:
     name: "{{ item.apt | default(item.name) }}"
     state: "{{ item.state | default(package_state) }}"

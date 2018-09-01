@@ -3,11 +3,13 @@
 package_list: []
 
 # APT
-package_apt_mirror_url: "{{ ansible_distribution  | lower }}.osuosl.org/{{ ansible_distribution  | lower }}"
-package_apt_repo_path: "/etc/apt/sources.list.d"
 package_apt_repo_https: False
 package_apt_repo_source: True
 package_apt_repo_backports: True
 package_apt_repo_experimental: True
 package_apt_repo_contrib_nonfree: True
 package_apt_repo_custom: []
+
+# YUM
+package_yum_epel: True
+package_yum_repo_custom: []

@@ -1,0 +1,4 @@
+# {{ item.filename | default(item.name) }}.list {{ ansible_managed }}
+
+deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ item.repo_url | replace('https://', '') | replace('http://', '') }}
+{{ '# ' if not item.repo_src else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ item.repo_url | replace('https://', '') | replace('http://', '') }}
