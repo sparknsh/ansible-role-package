@@ -1,4 +1,5 @@
 ---
+
 - hosts: all
   become: true
   gather_timeout: 60
@@ -6,4 +7,6 @@
   roles:
     - role: role_under_test
       package_list:
-        - name: htop
+        - htop
+        - name: net-tools
+          state: absent

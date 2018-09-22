@@ -17,11 +17,12 @@ galaxy_info:
       versions:
         - 6
         - 7
-  galaxy_tags: 
+  galaxy_tags:
     - system
     - development
     - cloud
     - apt
+    - yum
     - packaging
 
 dependencies: []

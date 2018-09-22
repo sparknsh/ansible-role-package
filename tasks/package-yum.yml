@@ -1,5 +1,5 @@
 ---
-  
+
 - name: Package YUM - Install 'epel-release'
   yum:
     name: "epel-release"
@@ -22,7 +22,7 @@
 
 - name: Package YUM - Install packages
   yum:
-    name: "{{ item.yum | default(item.name) }}"
+    name: "{{ item.name | default(item) }}"
     state: "{{ item.state | default(package_state) }}"
     update_cache: "{{ package_update_cache }}"
   when: (item.yum | default('True'))

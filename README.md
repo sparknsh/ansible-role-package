@@ -1,6 +1,6 @@
 # Ansible Role: Package
 
-#### Version: 1.1.0
+#### Version: 1.1.1
 
 [![pipeline status](https://gitlab.com/sparknsh/ansible-role-package/badges/master/pipeline.svg)](https://gitlab.com/sparknsh/ansible-role-package/commits/master)
 [![Ansible Role](https://img.shields.io/ansible/role/29019.svg)](https://galaxy.ansible.com/sparknsh/package)
@@ -36,14 +36,15 @@ Development of this project is managed in a private repository then pushed out t
         gpgcakey: ""
         gpgcheck: ""
         enable: ""
-        filename: "" # If not set name is used. By setting this you can add multiple repos into one file. 
+        filename: "" # If not set name is used. By setting this you can add multiple repos into one file.
         state: present
 
 
 #### Example
 
     package_list:
-      - name: tree
+      - tree
+      - nload
       - name: net-tools
         yum: False
       - name: htop
