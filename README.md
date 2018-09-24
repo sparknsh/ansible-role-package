@@ -1,6 +1,6 @@
 # Ansible Role: Package
 
-#### Version: 1.1.1
+#### Version: 1.1.2
 
 [![pipeline status](https://gitlab.com/sparknsh/ansible-role-package/badges/master/pipeline.svg)](https://gitlab.com/sparknsh/ansible-role-package/commits/master)
 [![Ansible Role](https://img.shields.io/ansible/role/29019.svg)](https://galaxy.ansible.com/sparknsh/package)
@@ -10,56 +10,64 @@ Development of this project is managed in a private repository then pushed out t
 
 ## Role Variables
 
-    package_list: []
+```yaml
+package_list: []
+```
 
 ##### APT package manager variables
 
-    package_apt_repo_https: False
-    package_apt_repo_source: True
-    package_apt_repo_backports: True
-    package_apt_repo_experimental: True
-    package_apt_repo_contrib_nonfree: True
-    package_apt_repo_custom:
-      - name: ""
-        repo_url: "" # Do not include "https://" or "http://"
-        repo_src: False
-        key: ""
-        filename: "" # Do not include ".list" in the filename
-        state: present
+```yaml
+package_apt_repo_https: False
+package_apt_repo_source: True
+package_apt_repo_backports: True
+package_apt_repo_experimental: True
+package_apt_repo_contrib_nonfree: True
+package_apt_repo_custom:
+  - name: ""
+    repo_url: "" # Do not include "https://" or "http://"
+    repo_src: False
+    key: ""
+    filename: "" # Do not include ".list" in the filename
+    state: present
+```
 
 ##### YUM package manager variables
 
-    package_yum_epel: True
-    package_yum_repo_custom:
-      - name: ""
-        baseurl: ""
-        gpgcakey: ""
-        gpgcheck: ""
-        enable: ""
-        filename: "" # If not set name is used. By setting this you can add multiple repos into one file.
-        state: present
-
+```yaml
+package_yum_epel: True
+package_yum_repo_custom:
+  - name: ""
+    baseurl: ""
+    gpgcakey: ""
+    gpgcheck: ""
+    enable: ""
+    filename: "" # If not set name is used. By setting this you can add multiple repos into one file.
+    state: present
+```
 
 #### Example
 
-    package_list:
-      - tree
-      - nload
-      - name: net-tools
-        yum: False
-      - name: htop
-        state: absent
-      - name: iotop
-        apt: False
-
+```yaml
+package_list:
+  - tree
+  - nload
+  - name: net-tools
+    yum: False
+  - name: htop
+    state: absent
+  - name: iotop
+    apt: False
+```
 
 ## Example Playbook
 
-    - hosts: all
-      vars_files:
-        - vars/main.yml
-      roles:
-         - { role: sparknsh.package }
+```yaml
+- hosts: all
+  vars_files:
+    - vars/main.yml
+  roles:
+     - { role: sparknsh.package }
+```
 
 ## License
 

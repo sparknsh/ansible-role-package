@@ -15,8 +15,7 @@ galaxy_info:
         - all
     - name: EL
       versions:
-        - 6
-        - 7
+        - all
   galaxy_tags:
     - system
     - development
