@@ -3,4 +3,9 @@
 - name: YUM Clean Metadata
   command: yum clean metadata
   args:
-    warn: no
+    warn: false
+
+- name: APT Update cache
+  apt:
+    update_cache: true
+    cache_valid_time: 0

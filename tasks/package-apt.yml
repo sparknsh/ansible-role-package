@@ -2,7 +2,7 @@
 
 - name: Check that HTTPS transport is available to APT
   apt: name="apt-transport-https" state=present
-  when: package_apt_repo_https
+  when: package_apt_repo_https | bool
 
 - name: Package APT - Install sources.list
   template:
@@ -11,7 +11,7 @@
     owner: root
     group: root
     mode: 0644
-  register: sources_updated
+  notify: APT Update cache
 
 - name: Package APT - Install backports.list
   template:
@@ -20,9 +20,9 @@
     owner: root
     group: root
     mode: 0644
-  register: sources_updated
+  notify: APT Update cache
   when:
-    - package_apt_repo_backports
+    - package_apt_repo_backports | bool
     - ansible_distribution == 'Debian'
 
 - name: Package APT - Install experimental.list
@@ -32,9 +32,9 @@
     owner: root
     group: root
     mode: 0644
-  register: sources_updated
+  notify: APT Update cache
   when:
-    - package_apt_repo_experimental
+    - package_apt_repo_experimental | bool
     - ansible_distribution == 'Debian'
 
 - name: packages APT - Custom repos
@@ -57,16 +57,11 @@
         owner: root
         group: root
         mode: 0644
-      register: sources_updated
+      notify: APT Update cache
       with_items: "{{ package_apt_repo_custom }}"
       when: item.state != 'absent'
       loop_control:
         label: "{{ package_apt_repo_path }}/{{ item.filename | default(item.name) }}.list"
-
-    - name: Package APT - Update APT cache
-      apt:
-        update_cache: yes
-        cache_valid_time: "{{ 0 if package_update_cache is defined and sources_updated.changed else package_cache_valid_time }}"
 
     - name: Package APT - Check if repo file exists
       stat:
@@ -81,23 +76,27 @@
       file:
         path: "{{ item.stat.path }}"
         state: absent
-      register: sources_updated
+      notify: APT Update cache
       with_items: "{{ result.results }}"
-      when: item.item.state == 'absent' and item.stat.exists
+      when:
+        - item.item.state == 'absent'
+        - item.stat.exists | bool
       loop_control:
-        label: "{{ item._ansible_item_label }}"
+        label: "{{ package_apt_repo_path }}/{{ item.item.filename | default(item.item.name) }}.list"
 
-    - name: Package APT - Update APT cache
-      apt:
-        update_cache: yes
-        cache_valid_time: "{{ 0 if package_update_cache is defined and sources_updated.changed else package_cache_valid_time }}"
+- name: Package APT - Run Handlers
+  meta: flush_handlers
 
 - name: Package APT - Install packages
   apt:
-    name: "{{ item.name | default(item) }}"
-    state: "{{ item.state | default(package_state) }}"
+    name: "{{ package_list_install.apt }}"
+    state: present
     update_cache: "{{ package_update_cache }}"
     cache_valid_time: "{{ package_cache_valid_time }}"
-  when: (item.apt | default('True'))
-  with_flattened:
-    - "{{ package_list }}"
+
+- name: Package APT - Remove packages
+  apt:
+    name: "{{ package_list_remove.apt }}"
+    state: absent
+    update_cache: "{{ package_update_cache }}"
+    cache_valid_time: "{{ package_cache_valid_time }}"

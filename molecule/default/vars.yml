@@ -1,0 +1,17 @@
+---
+
+package_list_install:
+  apt:
+    - sudo
+  yum:
+    - sudo
+  dnf:
+    - sudo
+
+package_list_remove:
+  apt:
+    - tree
+  yum:
+    - tree
+  dnf:
+    - tree

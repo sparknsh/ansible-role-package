@@ -1,15 +1,23 @@
 ---
 
-package_list: []
+package_list_install:
+  apt: []
+  yum: []
+  dnf: []
+
+package_list_remove:
+  apt: []
+  yum: []
+  dnf: []
 
 # APT
-package_apt_repo_https: False
-package_apt_repo_source: True
-package_apt_repo_backports: True
-package_apt_repo_experimental: True
-package_apt_repo_contrib_nonfree: True
+package_apt_repo_https: false
+package_apt_repo_source: true
+package_apt_repo_backports: true
+package_apt_repo_experimental: true
+package_apt_repo_contrib_nonfree: true
 package_apt_repo_custom: []
 
 # YUM
-package_yum_epel: True
+package_yum_epel: true
 package_yum_repo_custom: []

@@ -4,7 +4,7 @@
   yum:
     name: "epel-release"
     state: "{{ 'absent' if not package_yum_epel else 'present' }}"
-  when: package_yum_epel
+  when: package_yum_epel | bool
 
 - name: Package YUM - Custom Repo
   yum_repository:
@@ -22,9 +22,12 @@
 
 - name: Package YUM - Install packages
   yum:
-    name: "{{ item.name | default(item) }}"
-    state: "{{ item.state | default(package_state) }}"
+    name: "{{ package_list_install.yum }}"
+    state: present
     update_cache: "{{ package_update_cache }}"
-  when: (item.yum | default('True'))
-  with_flattened:
-    - "{{ package_list }}"
+
+- name: Package YUM - Remove packages
+  yum:
+    name: "{{ package_list_remove.yum }}"
+    state: absent
+    update_cache: "{{ package_update_cache }}"

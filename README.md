@@ -1,27 +1,33 @@
 # Ansible Role: Package
 
-#### Version: 1.1.2
+#### Version: 1.1.3
 
-[![pipeline status](https://gitlab.com/sparknsh/ansible-role-package/badges/master/pipeline.svg)](https://gitlab.com/sparknsh/ansible-role-package/commits/master)
-[![Ansible Role](https://img.shields.io/ansible/role/29019.svg)](https://galaxy.ansible.com/sparknsh/package)
-[![Ansible Role](https://img.shields.io/ansible/role/d/29019.svg)](https://galaxy.ansible.com/sparknsh/package)
+[![](https://img.shields.io/badge/role-sparknsh.package-blue.svg)](https://galaxy.ansible.com/sparknsh/package)
 
 Development of this project is managed in a private repository then pushed out to [GitLab](https://gitlab.com/sparknsh/ansible-role-package) and [GitHub](https://github.com/sparknsh/ansible-role-package) when we have a new version for you. If you have any issues please contact [sparknsh](https://www.sparknsh.com/contact?type=issue&name=ansible-role-package)
 
 ## Role Variables
 
 ```yaml
-package_list: []
+package_list_install:
+  apt: []
+  yum: []
+  dnf: []
+
+package_list_remove:
+  apt: []
+  yum: []
+  dnf: []
 ```
 
 ##### APT package manager variables
 
 ```yaml
-package_apt_repo_https: False
-package_apt_repo_source: True
-package_apt_repo_backports: True
-package_apt_repo_experimental: True
-package_apt_repo_contrib_nonfree: True
+package_apt_repo_https: false
+package_apt_repo_source: true
+package_apt_repo_backports: true
+package_apt_repo_experimental: true
+package_apt_repo_contrib_nonfree: true
 package_apt_repo_custom:
   - name: ""
     repo_url: "" # Do not include "https://" or "http://"
@@ -34,7 +40,7 @@ package_apt_repo_custom:
 ##### YUM package manager variables
 
 ```yaml
-package_yum_epel: True
+package_yum_epel: true
 package_yum_repo_custom:
   - name: ""
     baseurl: ""
@@ -48,15 +54,22 @@ package_yum_repo_custom:
 #### Example
 
 ```yaml
-package_list:
-  - tree
-  - nload
-  - name: net-tools
-    yum: False
-  - name: htop
-    state: absent
-  - name: iotop
-    apt: False
+package_list_install:
+  apt:
+    - sudo
+    - htop
+  yum:
+    - htop
+  dnf:
+    - htop
+
+package_list_remove:
+  apt:
+    - net-tools
+  yum:
+    - tree
+  dnf:
+    - iotop
 ```
 
 ## Example Playbook
