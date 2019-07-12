@@ -1,7 +1,7 @@
 ---
 
 script:
-  - echo "Sending to Ansible Galaxy"
+  - echo "Send to Ansible Galexy"
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

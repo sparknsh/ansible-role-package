@@ -1,7 +1,5 @@
 ---
 
-package_state: "present"
-package_update_cache: true
-package_cache_valid_time: 3600
-package_apt_mirror_url: "{{ ansible_distribution  | lower }}.osuosl.org/{{ ansible_distribution  | lower }}"
-package_apt_repo_path: "/etc/apt/sources.list.d"
+package__state: "present"
+package__apt_mirror_url: "{{ ansible_distribution  | lower }}.osuosl.org/{{ ansible_distribution  | lower }}"
+package__apt_repo_path: /etc/apt/sources.list.d

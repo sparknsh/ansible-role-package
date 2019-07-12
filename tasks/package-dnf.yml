@@ -1,1 +1,13 @@
 ---
+
+- name: Package | DNF - Package Lists
+  dnf:
+    name: "{{ item.yum | default(item.name) }}"
+    state: "{{ item.state | default(package__state) }}"
+  when: item.dnf_ignore | default('false')
+  with_flattened:
+    - "{{ package__list }}"
+    - "{{ package__list_host }}"
+    - "{{ package__list_group }}"
+  loop_control:
+    label: "{{ item.dnf | default(item.name) }}"

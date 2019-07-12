@@ -1,41 +1,41 @@
 # sources.list {{ ansible_managed }}
 {% if ansible_distribution == 'Debian' %}
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }} main {{ '' if not package_apt_repo_contrib_nonfree else 'contrib non-free' }}
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }} main {{ '' if not package_apt_repo_contrib_nonfree else 'contrib non-free' }}
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }} main {{ '' if not package__apt_contrib_nonfree else 'contrib non-free' }}
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }} main {{ '' if not package__apt_contrib_nonfree else 'contrib non-free' }}
 
 deb http://security.debian.org/debian-security {{ ansible_distribution_release }}/updates main
-{{ '# ' if not package_apt_repo_source else '' }}deb-src http://security.debian.org/debian-security {{ ansible_distribution_release }}/updates main
+{{ '# ' if not package__apt_source else '' }}deb-src http://security.debian.org/debian-security {{ ansible_distribution_release }}/updates main
 
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-updates main {{ '' if not package_apt_repo_contrib_nonfree else 'contrib non-free' }}
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-updates main {{ '' if not package_apt_repo_contrib_nonfree else 'contrib non-free' }}
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-updates main {{ '' if not package__apt_contrib_nonfree else 'contrib non-free' }}
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-updates main {{ '' if not package__apt_contrib_nonfree else 'contrib non-free' }}
 {% endif %}
 
 {% if ansible_distribution == 'Ubuntu' %}
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }} main restricted
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }} main restricted
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }} main restricted
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }} main restricted
 
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-updates main restricted
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-updates main restricted
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-updates main restricted
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-updates main restricted
 
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }} universe
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }} universe
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-updates universe
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-updates universe
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }} universe
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }} universe
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-updates universe
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-updates universe
 
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }} multiverse
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }} multiverse
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-updates multiverse
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-updates multiverse
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }} multiverse
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }} multiverse
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-updates multiverse
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-updates multiverse
 
-{% if package_apt_repo_backports == True %}
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-backports main restricted universe multiverse
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-backports main restricted universe multiverse
+{% if package__apt_backports == true %}
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-backports main restricted universe multiverse
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-backports main restricted universe multiverse
 {% endif %}
 
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-security main restricted
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-security main restricted
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-security universe
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-security universe
-deb {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-security multiverse
-{{ '# ' if not package_apt_repo_source else '' }}deb-src {{ 'http://' if not package_apt_repo_https else 'https://' }}{{ package_apt_mirror_url }}/ {{ ansible_distribution_release }}-security multiverse
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-security main restricted
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-security main restricted
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-security universe
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-security universe
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-security multiverse
+{{ '# ' if not package__apt_source else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-security multiverse
 {% endif %}

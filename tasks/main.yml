@@ -1,13 +1,4 @@
 ---
 
-- name: APT
-  include_tasks: package-apt.yml
-  when: ansible_pkg_mgr == 'apt'
-
-- name: YUM
-  include_tasks: package-yum.yml
-  when: ansible_pkg_mgr == 'yum'
-
-- name: DNF
-  include_tasks: package-dnf.yml
-  when: ansible_pkg_mgr == 'dnf'
+- name: Package | {{ ansible_pkg_mgr | upper }}
+  include_tasks: "package-{{ ansible_pkg_mgr }}.yml"

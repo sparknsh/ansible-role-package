@@ -18,12 +18,17 @@ galaxy_info:
     - name: EL
       versions:
         - all
+    - name: Fedora
+      versions:
+        - all
   galaxy_tags:
     - system
     - development
     - cloud
     - apt
     - yum
+    - package
+    - packages
     - packaging
 
 dependencies: []

@@ -1,33 +1,39 @@
 ---
 
-- name: Package YUM - Install 'epel-release'
+- name: Package | YUM - Install 'epel-release'
   yum:
-    name: "epel-release"
-    state: "{{ 'absent' if not package_yum_epel else 'present' }}"
-  when: package_yum_epel | bool
+    name: epel-release
+    state: present
+  when: package__yum_epel | bool
 
-- name: Package YUM - Custom Repo
+- name: Package | YUM - Custom Repo
   yum_repository:
     name: "{{ item.name | lower }}"
     description: "{{ item.name }}"
-    file: "{{ item.filename | lower | default(item.name) }}"
+    file: "{{ item.filename | default(item.name) | lower }}"
     baseurl: "{{ item.baseurl }}"
     gpgcakey: "{{ item.gpgcakey }}"
     gpgcheck: "{{ item.gpgcheck | default('no') }}"
     enabled: "{{ item.enable | default('yes') }}"
     state: "{{ item.state | default(package_state) }}"
-  when: item.state|default('present')
-  with_items: "{{ package_yum_repo_custom }}"
+  with_items: "{{ package__custom_repo.apt }}"
+  when:
+    - package__custom_repo.yum | length > 0
   notify: YUM Clean Metadata
+  loop_control:
+    label: "{{ item.name }}"
 
-- name: Package YUM - Install packages
-  yum:
-    name: "{{ package_list_install.yum }}"
-    state: present
-    update_cache: "{{ package_update_cache }}"
+- name: Package | YUM - Run Handlers
+  meta: flush_handlers
 
-- name: Package YUM - Remove packages
+- name: Package | YUM - Package Lists
   yum:
-    name: "{{ package_list_remove.yum }}"
-    state: absent
-    update_cache: "{{ package_update_cache }}"
+    name: "{{ item.yum | default(item.name) }}"
+    state: "{{ item.state | default(package__state) }}"
+  when: item.yum_ignore | default('false')
+  with_flattened:
+    - "{{ package__list }}"
+    - "{{ package__list_host }}"
+    - "{{ package__list_group }}"
+  loop_control:
+    label: "{{ item.yum | default(item.name) }}"

@@ -1,17 +1,11 @@
 ---
 
-package_list_install:
-  apt:
-    - sudo
-  yum:
-    - sudo
-  dnf:
-    - sudo
-
-package_list_remove:
-  apt:
-    - tree
-  yum:
-    - tree
-  dnf:
-    - tree
+package__list:
+  - name: sudo
+  - name: htop
+    dnf_ignore: true
+  - name: nload
+    yum_ignore: true
+    dnf_ignore: true
+  - name: tree
+    state: absent
