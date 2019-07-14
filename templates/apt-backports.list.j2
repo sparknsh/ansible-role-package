@@ -1,0 +1,4 @@
+# backports.list {{ ansible_managed }}
+
+deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-backports main
+{{ '# ' if not package__apt_debsrc else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-backports main

@@ -26,9 +26,12 @@ package__custom_repo:
   #   state:
   #   filename:
 
-package__apt_source: false
+package__apt_debsrc: false
+package__apt_sources_tpl: apt-sources.list.j2
 package__apt_backports: true
+package__apt_backports_tpl: apt-backports.list.j2
 package__apt_experimental: true
+package__apt_experimental_tpl: apt-experimental.list.j2
 package__apt_contrib_nonfree: true
 
 package__yum_epel: true

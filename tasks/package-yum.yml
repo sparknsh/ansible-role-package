@@ -4,7 +4,8 @@
   yum:
     name: epel-release
     state: present
-  when: package__yum_epel | bool
+  when:
+    - package__yum_epel | bool
 
 - name: Package | YUM - Custom Repo
   yum_repository:
@@ -30,7 +31,8 @@
   yum:
     name: "{{ item.yum | default(item.name) }}"
     state: "{{ item.state | default(package__state) }}"
-  when: item.yum_ignore | default('false')
+  when:
+    - item.yum_ignore | default('false')
   with_flattened:
     - "{{ package__list }}"
     - "{{ package__list_host }}"

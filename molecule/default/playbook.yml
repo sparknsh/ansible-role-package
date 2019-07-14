@@ -2,15 +2,30 @@
 
 - name: Converge
   hosts: all
+  become: true
   gather_timeout: 300
 
   vars_files:
     - vars.yml
 
   pre_tasks:
-    - name: Update apt cache.
-      apt: update_cache=yes cache_valid_time=3600
-      when: ansible_os_family == 'Debian'
+
+    - name: APT Cache
+      apt:
+        update_cache: true
+      when: ansible_pkg_mgr == 'apt'
+      changed_when: false
+
+    - name: YUM Cache
+      yum:
+        update_cache: true
+      when: ansible_pkg_mgr == 'yum'
+      changed_when: false
+
+    - name: DNF Cache
+      dnf:
+        update_cache: true
+      when: ansible_pkg_mgr == 'dnf'
       changed_when: false
 
   roles:

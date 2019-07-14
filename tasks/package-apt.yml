@@ -4,12 +4,13 @@
   apt:
     name: apt-transport-https
     state: present
-  when: package__https | bool
+  when:
+    - package__https | bool
 
 - name: Package | APT - Install sources.list
   template:
-    src: "sources.list.j2"
-    dest: "/etc/apt/sources.list"
+    src: "{{ package__apt_sources_tpl }}"
+    dest: "{{ package__apt_sources_file }}"
     owner: root
     group: root
     mode: 0644
@@ -17,8 +18,8 @@
 
 - name: Package | APT - Install backports.list
   template:
-    src: "backports.list.j2"
-    dest: "{{ package__apt_repo_path }}/backports.list"
+    src: "{{ package__apt_backports_tpl }}"
+    dest: "{{ package__apt_backports_file }}"
     owner: root
     group: root
     mode: 0644
@@ -29,8 +30,8 @@
 
 - name: Package | APT - Install experimental.list
   template:
-    src: "experimental.list.j2"
-    dest: "{{ package__apt_repo_path }}/experimental.list"
+    src: "{{ package__apt_experimental_tpl }}"
+    dest: "{{ package__apt_experimental_file }}"
     owner: root
     group: root
     mode: 0644
@@ -74,7 +75,8 @@
     update_cache: "{{ package__update_cache }}"
     cache_valid_time: "{{ package__cache_valid_time }}"
     install_recommends: "{{ item.apt_install_recommends | default(omit) }}"
-  when: item.apt_ignore | default('false')
+  when:
+    - item.apt_ignore | default('false')
   with_flattened:
     - "{{ package__list }}"
     - "{{ package__list_host }}"
