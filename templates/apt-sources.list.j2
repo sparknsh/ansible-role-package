@@ -3,8 +3,13 @@
 deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }} main {{ '' if not package__apt_contrib_nonfree else 'contrib non-free' }}
 {{ '# ' if not package__apt_debsrc else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }} main {{ '' if not package__apt_contrib_nonfree else 'contrib non-free' }}
 
-deb http://security.debian.org/debian-security {{ ansible_distribution_release }}/updates main
-{{ '# ' if not package__apt_debsrc else '' }}deb-src http://security.debian.org/debian-security {{ ansible_distribution_release }}/updates main
+{% if ansible_distribution_major_version | int >= 11 %}
+{% set __deb_security = '-security' %}
+{% else %}
+{% set __deb_security = '/updates' %}
+{% endif %}
+deb {{ 'http://' if not package__https else 'https://' }}security.debian.org/debian-security {{ ansible_distribution_release }}{{ __deb_security }} main
+{{ '# ' if not package__apt_debsrc else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}security.debian.org/debian-security {{ ansible_distribution_release }}{{ __deb_security }} main
 
 deb {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-updates main {{ '' if not package__apt_contrib_nonfree else 'contrib non-free' }}
 {{ '# ' if not package__apt_debsrc else '' }}deb-src {{ 'http://' if not package__https else 'https://' }}{{ package__apt_mirror_url }}/ {{ ansible_distribution_release }}-updates main {{ '' if not package__apt_contrib_nonfree else 'contrib non-free' }}

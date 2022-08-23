@@ -1,6 +1,6 @@
 # Ansible Role: Package
 
-#### Version: 1.2.1
+#### Version: 1.2.2
 
 [![](https://img.shields.io/badge/role-sparknsh.package-blue.svg)](https://galaxy.ansible.com/sparknsh/package)
 
@@ -23,7 +23,7 @@ package__custom_repo:
   apt: []
   yum: []
 
-package__apt_source: false
+package__apt_debsrc: true
 package__apt_backports: true
 package__apt_experimental: true
 package__apt_contrib_nonfree: true
