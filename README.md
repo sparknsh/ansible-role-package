@@ -1,6 +1,6 @@
 # Ansible Role: Package
 
-#### Version: 1.2.2
+#### Version: 1.2.3
 
 [![](https://img.shields.io/badge/role-sparknsh.package-blue.svg)](https://galaxy.ansible.com/sparknsh/package)
 
