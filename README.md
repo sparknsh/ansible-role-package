@@ -1,10 +1,10 @@
 # Ansible Role: Package
 
-#### Version: 1.2.3
+#### Version: 1.2.4
 
 [![](https://img.shields.io/badge/role-sparknsh.package-blue.svg)](https://galaxy.ansible.com/sparknsh/package)
 
-Development of this project is managed in a private repository then pushed out to [GitLab](https://gitlab.com/sparknsh/ansible-role-package) and [GitHub](https://github.com/sparknsh/ansible-role-package) when we have a new version for you. If you have any issues please contact [sparknsh](https://www.sparknsh.com/contact?type=issue&name=ansible-role-package)
+Development of this project is managed in a private repository then pushed out to [GitHub](https://github.com/sparknsh/ansible-role-package) when we have a new version for you. If you have any issues please contact [sparknsh](https://www.sparknsh.com/contact?type=issue&name=ansible-role-package)
 
 ## Role Variables
 
@@ -37,7 +37,7 @@ package__yum_epel: true
 package__custom_repo:
   apt:
     - name: HAProxy
-      repo_url: "deb https://haproxy.debian.net stretch-backports-1.9 main"
+      repo_url: "deb https://haproxy.debian.net bullseye-backports-2.6 main"
       key_url: "https://haproxy.debian.net/bernat.debian.org.gpg"
       state: present
       filename: haproxy
@@ -48,7 +48,7 @@ package__list:
   - name: htop
     dnf_ignore: true
   - name: haproxy
-    apt_default_release: stretch-backports
+    apt_default_release: bullseye-backports
     yum_ignore: true
     dnf_ignore: true
   - name: tree
@@ -71,4 +71,4 @@ MIT
 
 ## Author Information
 
-This role was created in 2019 by [sparknsh](https://www.sparknsh.com) at [Rebel Media, Inc.](https://www.rebelmedia.io/)
+This role was created in 2022 by [sparknsh](https://www.sparknsh.com) at [Rebel Media, Inc.](https://www.rebelmedia.io/)
